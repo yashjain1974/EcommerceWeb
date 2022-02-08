@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <title>{% block title%} {% endblock %}</title>
+
+       {% block css %}
+       <style>
+body{
+background:#F2F3EB;
+}
+
+        #navbar{
+       padding:50px;
+
+        }
+        .footer{
+    height: 12rem;
+    background: #000;
+    display: grid;
+    place-items: center;
+}
+
+.footer-text{
+    color: #F2F3EB;
+}
+
+      </style>
+        {% endblock %}
+
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v12.0" nonce="7Uh1GqCU"></script>
+  </head>
+  <body>
+{% load static %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="navbar">
+        <img src='{% static "blog/logo2.png" %}' style="height:10%;width:10%;margin-right:5px;">
+<!--  <a class="navbar-brand" href='/shop/index'>Shop Machao</a>-->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/shop/index">Home <span class="sr-only">(current)</span></a>
+      </li>
+
+
+  <li class="nav-item">
+        <a class="nav-link" href="/shop/checkout">Checkout</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="/shop/tracker">Tracker</a>
+      </li>
+<li class="nav-item">
+        <a class="nav-link" href="/blog">Blog</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/shop/contact">Contact Us</a>
+      <li class="nav-item">
+        <a class="nav-link" href="/shop/about">About Us</a>
+      </li>
+
+
+
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+    <button type="button" class="btn btn-secondary mx-2" id="popcart" data-container="body" data-toggle="popover" data-placement="bottom" data-html="true" data-content="Vivamus
+sagittis lacus vel augue laoreet rutrum faucibus.">
+
+
+  Cart(<span id="cart">0</span>)
+</button>
+  </div>
+</nav>
+  {% block body %} {% endblock %}
+<footer>
+        <div class="footer">
+            <p class="footer-text">&copy 2022-2023 Yash Jain</p>
+        </div>
+    </footer>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+  src="https://code.jquery.com/jquery-3.6.0.js"
+  integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+  crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+    {% block js %}
+    <script>
+    if (localStorage.getItem('cart') == null) {
+    var cart = {};
+}
+else {
+    cart = JSON.parse(localStorage.getItem('cart'));
+
+
+}
+console.log(cart);
+let sum=0;
+var totalPrice=0;
+if($.isEmptyObject(cart)){
+  str=`<p>Your Cart is Empty ,Please Add some item before Checking Out !</p>`
+  $('#items').append(str);
+}
+else{
+for(var item in cart){
+    let name=cart[item][1];
+    let qty=cart[item][0];
+    let itemPrice=cart[item][2];
+    sum=sum+qty;
+    totalPrice=totalPrice +qty*itemPrice;
+    let str=` <li class="list-group-item d-flex justify-content-between align-items-center">
+                    ${name}
+                    <span class="badge badge-primary badge-pill">&#8377;${itemPrice}</span>
+                    <span class="badge badge-primary badge-pill">${qty}</span>
+                </li>`
+    $('#items').append(str);
+
+}}
+document.getElementById('cart').innerHTML=sum;
+
+  </script>
+    {% endblock %}
+
+  </body>
+</html>

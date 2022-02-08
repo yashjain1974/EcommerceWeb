@@ -1,0 +1,110 @@
+{% extends 'shop/basic.html' %}
+{% block title%} Order Tracker- Shop Machao{% endblock %}
+{% block body %}
+<div class="container">
+    <div class="col my-4">
+        <h2>Shop Machao Express Tracker</h2>
+            <h4> Enter your Order Id and Email Address to track you order</h4>
+        <div>
+        </div>
+    </div>
+    <div class="col my-4">
+        <form method="post" action="#" id="trackerForm">
+            
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="order_id">Order No</label>
+                    <input type="number" class="form-control" id="order_id" name="order_id" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Track Order</button>
+        </form>
+        <div class="col my-4" id="pro">
+        </div>
+            <div class="my-4" id="items">
+                
+                
+            </div>
+                
+        <div class="col my-4" id="detail">
+        </div>
+            <div class="my-4" id="orderdetail">
+                
+            </div>
+                
+    </div>
+</div>
+{% endblock %}
+{%block js%}
+<script>
+$("#trackerForm").submit(function(event){
+$('#items').empty();
+var formData={
+    'order_id':$('input[name=order_id]').val(),
+    'email':$('input[name=email]').val(),
+    'csrfmiddlewaretoken':$('input[name=csrfmiddlewaretoken]').val()
+};
+$.ajax({
+    type:'POST',
+    url:'/shop/tracker/',
+    data:formData,
+    encode:true
+})
+.done(function(data){
+    //console.log(data);
+   $('#orderdetail').empty();
+    data=JSON.parse(data);
+
+
+    if(data['status']=='success'){
+    updates=data['updates'];
+    console.log(updates);
+
+    for(let i=0;i<updates.length;i++){
+    let text=updates[i]['text'];
+    let time=updates[i]['time'];
+    document.getElementById("pro").innerHTML=`<h2>Find Below tracking details here:-</h2>`;
+    let str=`
+     <li class="list-group-item d-flex justify-content-between align-items-center">
+                    ${text}
+                    <span class="badge badge-primary badge-pill">${time}</span>
+                </li>`
+    $('#items').append(str);}
+     //Fill in the order details
+            cart=JSON.parse(data['itemsJson']);
+            console.log(cart);
+            for(item in cart){
+    let name=cart[item][1];
+    let qty=cart[item][0];
+    document.getElementById("detail").innerHTML=`<h2>Find Below Order details here:-</h2>`;
+    let str=`
+     <li class="list-group-item d-flex justify-content-between align-items-center">
+                    ${name}
+                    <span class="badge badge-primary badge-pill">${qty}</span>
+                </li>`
+    $('#orderdetail').append(str);
+
+}
+            }
+            else{
+                let str=` <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Sorry,We are unable to fetch this order , Make sure to type correct order_id or Email
+                   
+                </li>`;
+    $('#items').append(str);
+
+
+            }
+
+});
+
+event.preventDefault();
+})
+</script>
+{%endblock%}
