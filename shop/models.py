@@ -4,7 +4,7 @@ from django.utils import timezone
 # Create your models here.
 class Product(models.Model):
     product_id=models.AutoField
-    product_name=models.CharField(max_length=50)
+    product_name=models.TextField(max_length=50,default="")
     category = models.CharField(max_length=50, default="")
     subcategory=models.CharField(max_length=50,default="")
     price=models.IntegerField(default=0)
@@ -23,13 +23,13 @@ class Contact(models.Model):
     email=models.CharField(max_length=50,default="")
     phone=models.CharField(max_length=13,default="")
     date=models.DateField(default=timezone.now())
-    desc=models.CharField(max_length=500,default="")
+    desc=models.TextField(max_length=500,default="")
 
     def __str__(self):
         return self.email
 class Orders(models.Model):
     order_id=models.AutoField(primary_key=True)
-    items_json=models.CharField(max_length=5000)
+    items_json=models.TextField(max_length=5000)
     amount=models.IntegerField(default=0)
     name=models.CharField(max_length=60)
     email=models.CharField(max_length=60)

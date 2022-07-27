@@ -23,6 +23,7 @@
     Thank you for Using Shop Machao...</li>
         </ol>
       </nav>
+    <button class='btn btn-primary mx-2' onclick=clearCart() id='clearCart'>ClearCart</button>
       
     <div class="col my-4">
         
@@ -82,6 +83,11 @@ else {
    
     
 }
+function clearCart(){
+        localStorage.clear();
+        document.location="/shop/checkout/";
+
+    }
 console.log(cart);
 let sum=0;
 var totalPrice=0;

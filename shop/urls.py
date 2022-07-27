@@ -6,8 +6,8 @@ urlpatterns = [
     # path("",views.index,name="Shop"),
     path("",views.index,name="index"),
     path("index/",views.index,name="index"),
-
     path("about/",views.about,name="about"),
+
     path("contact/",views.contact,name="contactUs"),
     path("tracker/",views.tracker,name="tracker"),
     path("search/",views.search,name="search"),
