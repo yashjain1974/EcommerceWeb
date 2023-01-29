@@ -46,6 +46,9 @@ background-color:#212529;
 margin:5px;
 }
 
+@media only screen and (max-width: 768px) {
+
+}
 </style>
 
 {% endblock %}
@@ -143,7 +146,7 @@ margin:5px;
         popStr=popStr+"</div> <a href='/shop/checkout'><button class='btn btn-primary' id='checkout'>Checkout</button></a><button class='btn btn-primary mx-2' onclick=clearCart() id='clearCart'>ClearCart</button>  "
         console.log(popStr);
         document.getElementById("popcart").setAttribute('data-content', popStr);
-        $('#popcart').popover('show');
+        $('[data-toggle="popover"]').popover();
     }
 
     function updateCart(cart) {
